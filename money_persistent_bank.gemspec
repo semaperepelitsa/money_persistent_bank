@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = MoneyPersistentBank::VERSION
   s.authors     = ["Semyon Perepelitsa"]
   s.email       = ["sema@sema.in"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.homepage    = "https://github.com/semaperepelitsa/money_persistent_bank"
+  s.summary     = %q{Adds persistent bank to Money gem}
+  # s.description = %q{TODO: Write a gem description}
 
   s.rubyforge_project = "money_persistent_bank"
 

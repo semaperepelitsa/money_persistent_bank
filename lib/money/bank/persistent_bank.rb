@@ -24,7 +24,7 @@ class Money
       def update_rates
         previous_cache = @rates_cache
         @rates_cache = storage.read(CACHE_KEY)
-        return if previous_cache == @rates_cache
+        return if previous_cache == @rates_cache # Do not reload rates if cache wasn't changed
         rates.clear
         import_rates(RATE_FORMAT, @rates_cache) if @rates_cache
       end

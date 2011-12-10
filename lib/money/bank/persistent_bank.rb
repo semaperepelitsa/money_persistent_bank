@@ -11,6 +11,7 @@ class Money
       RATE_FORMAT = :yaml
       CACHE_KEY = 'persistent_bank/rates'
 
+      # Inherited .instance returns VariableExchange for some reason
       def self.instance
         @@pb_singleton ||= new
       end

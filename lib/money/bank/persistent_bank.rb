@@ -1,11 +1,13 @@
 require "money/bank/variable_exchange"
-require 'active_support/core_ext/class/attribute_accessors'
 
 class Money
   module Bank
     class PersistentBank < VariableExchange
 
-      cattr_accessor :default_storage
+      class << self
+        attr_accessor :default_storage
+      end
+
       attr_accessor :storage
 
       RATE_FORMAT = :yaml

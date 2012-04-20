@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "money"
+  s.add_development_dependency "activesupport", "~> 3.0"
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"

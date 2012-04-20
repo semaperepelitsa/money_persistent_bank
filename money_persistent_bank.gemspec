@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "money"
+  s.add_dependency "money", ">= 4.0"
   s.add_development_dependency "activesupport", "~> 3.0"
 
   # specify any dependencies here; for example:

@@ -26,13 +26,13 @@ class PersistentBankTest < MiniTest::Unit::TestCase
 
     assert_nil PersistentBank.new.get_rate('USD', 'AZN')
 
-    pb.save!
+    pb.save
     assert_equal 123, PersistentBank.new.get_rate('USD', 'AZN')
   end
 
   def test_destroy
     PersistentBank.instance.add_rate('USD', 'AZN', 123)
-    PersistentBank.instance.save!
+    PersistentBank.instance.save
 
     refute_nil PersistentBank.instance.get_rate('USD', 'AZN')
     refute_nil PersistentBank.new.get_rate('USD', 'AZN')
@@ -44,13 +44,13 @@ class PersistentBankTest < MiniTest::Unit::TestCase
 
   def test_updating_rates
     assert_nil PersistentBank.instance.get_rate('USD', 'AZN')
-    PersistentBank.new.tap{|b| b.add_rate('USD', 'AZN', 123)}.save!
+    PersistentBank.new.tap{|b| b.add_rate('USD', 'AZN', 123)}.save
     assert_equal 123, PersistentBank.instance.get_rate('USD', 'AZN')
   end
 
   def test_rates_also_trigger_update
     assert_nil PersistentBank.instance.get_rate('USD', 'AZN')
-    PersistentBank.new.tap{|b| b.add_rate('USD', 'AZN', 123)}.save!
+    PersistentBank.new.tap{|b| b.add_rate('USD', 'AZN', 123)}.save
     assert_equal({ "USD_TO_AZN" => 123 }, PersistentBank.instance.rates)
   end
 end

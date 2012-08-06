@@ -42,9 +42,10 @@ class Money
         super
       end
 
-      def save!
+      def save
         storage.write(CACHE_KEY, export_rates(RATE_FORMAT))
       end
+      alias_method :save!, :save
 
       def destroy
         storage.delete(CACHE_KEY)

@@ -1,6 +1,6 @@
 # Money Persistent Bank
 
-"Money" gem provides VariableExchange which is useful for converting money from one currency to another. This gem provides PersistentBank which can save rates to a local storage and automatically load from it in another place.
+["Money" gem][money] provides VariableExchange which is useful for converting money from one currency to another. This gem provides PersistentBank which can save rates to a local storage and automatically load from it in another place.
 
 This can be useful in a Rails application. You fetch rates from external source once a day in a rake task and your running application picks up the new rates on the next request.
 
@@ -23,8 +23,12 @@ Now you can use it in a rake task.
       bank.save! # you have to explicitly save after setting the rates
     end
 
+(See also [money\_bank\_sources](https://github.com/semaperepelitsa/money_bank_sources).)
+
 And somewhere in your application:
 
     1.to_money(:usd).exchange_to(:eur).to_f # => 0.8
 
 When the rates are updated it will automatically use them.
+
+[money]: https://github.com/RubyMoney/money

@@ -32,7 +32,12 @@ class Money
         import_rates(RATE_FORMAT, @rates_cache) if @rates_cache
       end
 
-      def get_rate(*args)
+      def get_rate(*)
+        update_rates
+        super
+      end
+
+      def rates(*)
         update_rates
         super
       end

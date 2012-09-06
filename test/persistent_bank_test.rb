@@ -6,51 +6,28 @@ $:.unshift(File.expand_path('../../lib', __FILE__))
 require "money_persistent_bank"
 require "active_support/cache"
 
-STORAGE = ActiveSupport::Cache::MemoryStore.new
-Money::Bank::PersistentBank.default_storage = STORAGE
-
 class PersistentBankTest < MiniTest::Unit::TestCase
   include Money::Bank
 
-  def test_instance
-    assert_equal PersistentBank, PersistentBank.instance.class
-  end
-
   def setup
-    STORAGE.clear
+    @storage = ActiveSupport::Cache::MemoryStore.new
+    @writer = PersistentBank.new(@storage)
+    @reader = PersistentBank.new(@storage)
+    @reader2 = PersistentBank.new(@storage)
   end
 
   def test_persistance
-    pb = PersistentBank.new
-    pb.add_rate('USD', 'AZN', 123)
-
-    assert_nil PersistentBank.new.get_rate('USD', 'AZN')
-
-    pb.save
-    assert_equal 123, PersistentBank.new.get_rate('USD', 'AZN')
+    @writer.writing{ @writer.add_rate('USD', 'AZN', 123) }
+    assert_nil @reader.get_rate('USD', 'AZN')
+    assert_equal 123, @reader.reading{ @reader.get_rate('USD', 'AZN') }
   end
 
-  def test_destroy
-    PersistentBank.instance.add_rate('USD', 'AZN', 123)
-    PersistentBank.instance.save
+  def test_clear
+    @writer.writing { |b| b.add_rate('USD', 'AZN', 123) }
 
-    refute_nil PersistentBank.instance.get_rate('USD', 'AZN')
-    refute_nil PersistentBank.new.get_rate('USD', 'AZN')
-    PersistentBank.instance.destroy
+    refute_nil @reader.reading { |b| b.get_rate('USD', 'AZN') }
+    @writer.clear
 
-    assert_nil PersistentBank.instance.get_rate('USD', 'AZN')
-    assert_nil PersistentBank.new.get_rate('USD', 'AZN')
-  end
-
-  def test_updating_rates
-    assert_nil PersistentBank.instance.get_rate('USD', 'AZN')
-    PersistentBank.new.tap{|b| b.add_rate('USD', 'AZN', 123)}.save
-    assert_equal 123, PersistentBank.instance.get_rate('USD', 'AZN')
-  end
-
-  def test_rates_also_trigger_update
-    assert_nil PersistentBank.instance.get_rate('USD', 'AZN')
-    PersistentBank.new.tap{|b| b.add_rate('USD', 'AZN', 123)}.save
-    assert_equal({ "USD_TO_AZN" => 123 }, PersistentBank.instance.rates)
+    assert_nil @reader2.reading { |b| b.get_rate('USD', 'AZN') }
   end
 end

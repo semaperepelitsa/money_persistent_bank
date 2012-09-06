@@ -2,14 +2,12 @@ require "rails/railtie"
 
 module MoneyPersistentBank
   class Railtie < Rails::Railtie
-    initializer "money_persistent_bank.make_default" do
+    initializer "money_persistent_bank" do |app|
       require "money"
       require "money/bank/persistent_bank"
-      Money.default_bank = Money::Bank::PersistentBank.new(Rails.cache)
-    end
-
-    initializer "money_persistent_bank.middleware" do
-      app.config.middleware.use Synchronization
+      bank = Money::Bank::PersistentBank.new(Rails.cache)
+      Money.default_bank = bank
+      app.config.middleware.use Synchronization, bank
     end
   end
 

@@ -7,7 +7,7 @@ module MoneyPersistentBank
       require "money/bank/persistent_bank"
       tmp = app.paths['tmp'].first
       cache = ActiveSupport::Cache::FileStore.new("#{tmp}/money_persistent_bank")
-      bank = Money::Bank::PersistentBank.new(cache)
+      bank = Money::Bank::PersistentBank.new(cache, Rails.env)
       Money.default_bank = bank
       app.config.middleware.use Synchronization, bank
     end

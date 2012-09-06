@@ -1,3 +1,5 @@
+require "rails/railtie"
+
 module MoneyPersistentBank
   class Railtie < Rails::Railtie
     initializer "money_persistent_bank.make_default" do

@@ -12,16 +12,6 @@ class Money
         @storage_format = format
       end
 
-      def writing
-        yield self
-        export_rates
-      end
-
-      def reading
-        import_rates
-        yield self
-      end
-
       def export_rates
         storage.write(@storage_key, super(@storage_format))
       end

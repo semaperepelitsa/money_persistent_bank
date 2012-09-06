@@ -16,17 +16,23 @@ class PersistentBankTest < MiniTest::Unit::TestCase
   end
 
   def test_persistance
-    @writer.writing{ @writer.add_rate('USD', 'AZN', 123) }
+    @writer.add_rate('USD', 'AZN', 123)
+    @writer.export_rates
     assert_nil @reader.get_rate('USD', 'AZN')
-    assert_equal 123, @reader.reading{ @reader.get_rate('USD', 'AZN') }
+    @reader.import_rates
+    assert_equal 123, @reader.get_rate('USD', 'AZN')
   end
 
   def test_clear
-    @writer.writing { |b| b.add_rate('USD', 'AZN', 123) }
+    @writer.add_rate('USD', 'AZN', 123)
+    @writer.export_rates
 
-    refute_nil @reader.reading { |b| b.get_rate('USD', 'AZN') }
+    @reader.import_rates
+    refute_nil @reader.get_rate('USD', 'AZN')
+
     @writer.clear
 
-    assert_nil @reader.reading { |b| b.get_rate('USD', 'AZN') }
+    @reader.import_rates
+    assert_nil @reader.get_rate('USD', 'AZN')
   end
 end

@@ -13,7 +13,6 @@ class PersistentBankTest < MiniTest::Unit::TestCase
     @storage = ActiveSupport::Cache::MemoryStore.new
     @writer = PersistentBank.new(@storage)
     @reader = PersistentBank.new(@storage)
-    @reader2 = PersistentBank.new(@storage)
   end
 
   def test_persistance
@@ -28,6 +27,6 @@ class PersistentBankTest < MiniTest::Unit::TestCase
     refute_nil @reader.reading { |b| b.get_rate('USD', 'AZN') }
     @writer.clear
 
-    assert_nil @reader2.reading { |b| b.get_rate('USD', 'AZN') }
+    assert_nil @reader.reading { |b| b.get_rate('USD', 'AZN') }
   end
 end

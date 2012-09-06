@@ -8,7 +8,7 @@ This can be useful in a Rails application. You fetch rates from external source 
 
 Add it to your gemfile:
 
-    gem "persistent_bank", "~> 0.1.0"
+    gem "money_persistent_bank", "~> 0.1.0"
 
 Now you can use it in a rake task.
 

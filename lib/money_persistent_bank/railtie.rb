@@ -10,6 +10,7 @@ module MoneyPersistentBank
       bank = Money::Bank::PersistentBank.new(cache, Rails.env)
       Money.default_bank = bank
       app.config.middleware.use Synchronization, bank
+      bank.import_rates
     end
   end
 
